@@ -8,13 +8,13 @@ import (
 	"oatkup.sys/internal/repo/applications"
 )
 
-type CreateUsecase struct{ repo applications.Repository }
+type CreateApplicationUsecase struct{ repo applications.Repository }
 
-func NewCreateUsecase(r applications.Repository) *CreateUsecase {
-	return &CreateUsecase{repo: r}
+func NewCreateApplicationUsecase(r applications.Repository) *CreateApplicationUsecase {
+	return &CreateApplicationUsecase{repo: r}
 }
 
-func (uc *CreateUsecase) Apply(ctx context.Context, req *ApplicationRequest) (*ApplicationModel, error) {
+func (uc *CreateApplicationUsecase) Apply(ctx context.Context, req *ApplicationRequest) (*ApplicationModel, error) {
 	app := &entity.Application{
 		ID:          uuid.NewString(),
 		Name:        req.Name,

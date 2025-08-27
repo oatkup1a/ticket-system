@@ -13,7 +13,7 @@ import (
 type AppDeps struct {
 	DB          *gorm.DB
 	AppRepo     repo.Repository
-	CreateAppUC *applications.CreateUsecase
+	CreateAppUC *applications.CreateApplicationUsecase
 	AppHandler  *handler.ApplicationHandler
 }
 
@@ -28,7 +28,7 @@ func NewAppDeps(dsn string) (*AppDeps, error) {
 	}
 
 	repo := repo.NewGormRepository(db)
-	createUC := applications.NewCreateUsecase(repo)
+	createUC := applications.NewCreateApplicationUsecase(repo)
 	h := handler.NewApplicationHandler(createUC)
 
 	return &AppDeps{

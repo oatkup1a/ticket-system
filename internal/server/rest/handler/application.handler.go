@@ -6,10 +6,10 @@ import (
 )
 
 type ApplicationHandler struct {
-	createUC *applications.CreateUsecase
+	createUC *applications.CreateApplicationUsecase
 }
 
-func NewApplicationHandler(createUC *applications.CreateUsecase) *ApplicationHandler {
+func NewApplicationHandler(createUC *applications.CreateApplicationUsecase) *ApplicationHandler {
 	return &ApplicationHandler{createUC: createUC}
 }
 
