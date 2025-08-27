@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "[pre-push] running tests..."
+go test ./... -race -cover || {
+  echo "[pre-push] tests failed. push aborted."
+  exit 1
+}
+
+echo "[pre-push] OK"
