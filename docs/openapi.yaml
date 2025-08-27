@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: Applications API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /applications:
+    post:
+      summary: Create an application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+                description: { type: string }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: string }
+                  name: { type: string }
+                  description: { type: string }

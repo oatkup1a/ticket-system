@@ -1,0 +1,35 @@
+# Go
+bin/
+dist/
+coverage/
+*.out
+
+# Modules cache (keep vendor/ only if you use go mod vendor)
+vendor/
+
+# OS junk (macOS / Windows)
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE/editor
+.vscode/
+.idea/
+*.iml
+
+# Env & local files
+.env
+.env.*
+*.local
+*.env
+*.secret
+
+# Logs & temp
+*.log
+tmp/

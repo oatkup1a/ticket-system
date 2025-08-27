@@ -1,0 +1,51 @@
+services:
+  db:
+    image: postgres:16
+    container_name: myapp-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-mydb}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-mydb}",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Optional: run your Go app in a container too
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: myapp-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # IMPORTANT: host must be the service name "db"
+      DATABASE_DSN: "host=db port=5432 user=${POSTGRES_USER:-postgres} password=${POSTGRES_PASSWORD:-postgres} dbname=${POSTGRES_DB:-mydb} sslmode=disable"
+      PORT: "8080"
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    restart: unless-stopped
+  migrate:
+    image: migrate/migrate:4
+    container_name: myapp-migrate
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./migrations:/migrations
+    entrypoint: ["migrate"]
+
+volumes:
+  pgdata:
