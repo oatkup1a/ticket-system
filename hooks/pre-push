@@ -1,10 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "[pre-push] running tests..."
-go test ./... -race -cover || {
-  echo "[pre-push] tests failed. push aborted."
-  exit 1
-}
+echo "──────────────────────────────"
+echo "🚀  Running pre-push checks"
+echo "──────────────────────────────"
 
-echo "[pre-push] OK"
+# Allow bypass: SKIP_TESTS=1 git push
+if [[ "${SKIP_TESTS:-0}" == "1" ]]; then
+  echo "⚠️  Skipping tests (SKIP_TESTS=1)."
+  exit 0
+fi
+
+if go test ./... -race -cover; then
+  echo "✅ Pre-push: All tests passed!"
+else
+  echo "❌ Pre-push: Tests failed. Push aborted."
+  exit 1
+fi
+
+echo "──────────────────────────────"
+echo "✨ Pre-push checks completed"
+echo "──────────────────────────────"
