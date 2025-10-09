@@ -4,13 +4,12 @@ import (
 	"log"
 	"os"
 
-	fiberSwagger "github.com/swaggo/fiber-swagger"
 	"oatkup.sys/internal/di"
 	"oatkup.sys/internal/server/rest"
 )
 
 func main() {
-	dsn := os.Getenv("DATABASE_DSN") // e.g. postgres DSN
+	dsn := os.Getenv("DATABASE_DSN")
 	if dsn == "" {
 		log.Fatal("DATABASE_DSN is empty")
 	}
@@ -22,8 +21,7 @@ func main() {
 
 	app := rest.NewServer(deps.AppHandler)
 
-	app.Get("/swagger/*", fiberSwagger.WrapHandler)
-	
+	log.Println("Server starting on :8080")
 	if err := app.Listen(":8080"); err != nil {
 		log.Fatal(err)
 	}
